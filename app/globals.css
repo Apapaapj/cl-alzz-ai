@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Custom scrollbar ─────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: #0A0A0A; }
+::-webkit-scrollbar-thumb { background: #6B0000; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #CC0000; }
+
+/* ── Selection color ──────────────────────────────── */
+::selection { background: rgba(139, 0, 0, 0.5); color: #fff; }
+
+/* ── Glitch text effect ───────────────────────────── */
+@keyframes glitch-1 {
+  0%, 100% { clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%); transform: translate(-4px, 0); }
+  50% { clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%); transform: translate(4px, 0); }
+}
+@keyframes glitch-2 {
+  0%, 100% { clip-path: polygon(0 40%, 100% 40%, 100% 60%, 0 60%); transform: translate(4px, 0); }
+  50% { clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%); transform: translate(-4px, 2px); }
+}
+
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+.glitch-text::before {
+  color: #FF1A1A;
+  animation: glitch-1 0.4s infinite linear alternate-reverse;
+}
+.glitch-text::after {
+  color: #8B0000;
+  animation: glitch-2 0.3s infinite linear alternate-reverse;
+}
+
+/* ── CRT scan line overlay ────────────────────────── */
+.crt-overlay::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── Red glow utilities ───────────────────────────── */
+.glow-red { box-shadow: 0 0 10px rgba(139, 0, 0, 0.5), 0 0 30px rgba(139, 0, 0, 0.2); }
+.glow-red-bright { box-shadow: 0 0 20px rgba(204, 0, 0, 0.7), 0 0 60px rgba(139, 0, 0, 0.4); }
+.text-glow-red { text-shadow: 0 0 10px rgba(204, 0, 0, 0.8), 0 0 20px rgba(139, 0, 0, 0.5); }
+
+/* ── Grid background ──────────────────────────────── */
+.bg-grid {
+  background-image: linear-gradient(rgba(139,0,0,0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(139,0,0,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Chat message styling ─────────────────────────── */
+.prose-dark {
+  color: #E8E8E8;
+  line-height: 1.7;
+}
+.prose-dark pre {
+  background: #0D0D0D;
+  border: 1px solid #3D0000;
+  border-radius: 6px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+.prose-dark code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+}
+.prose-dark p code {
+  background: rgba(139,0,0,0.2);
+  border: 1px solid rgba(139,0,0,0.3);
+  border-radius: 3px;
+  padding: 0.1em 0.3em;
+  font-size: 0.85em;
+}
+.prose-dark a {
+  color: #FF6B6B;
+  text-decoration: underline;
+  text-decoration-color: rgba(255,107,107,0.4);
+}
+
+/* ── Intro animation ──────────────────────────────── */
+@keyframes introFade {
+  0% { opacity: 0; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes introExit {
+  0% { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; }
+}
+.intro-enter { animation: introFade 0.5s ease forwards; }
+.intro-exit { animation: introExit 0.6s ease forwards; }
+
+/* ── Typing indicator dots ────────────────────────── */
+@keyframes dotBounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-8px); opacity: 1; }
+}
+.dot-1 { animation: dotBounce 1.2s infinite; }
+.dot-2 { animation: dotBounce 1.2s infinite 0.2s; }
+.dot-3 { animation: dotBounce 1.2s infinite 0.4s; }
