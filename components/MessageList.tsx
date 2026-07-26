@@ -7,11 +7,6 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import type { Message } from './ChatPage'
 import { AI_MODELS } from '@/config/models'
 
-interface MessageListProps {
-  messages: Message[]
-  isThinking: boolean
-}
-
 function formatTime(ts: number) {
   return new Date(ts).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
 }
@@ -21,7 +16,7 @@ function getModelName(modelId?: string) {
   return AI_MODELS.find(m => m.id === modelId)?.name || 'CL-ALZZ'
 }
 
-export default function MessageList({ messages, isThinking }: MessageListProps) {
+export default function MessageList({ messages, isThinking }: { messages: Message[]; isThinking: boolean }) {
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -91,11 +86,7 @@ export default function MessageList({ messages, isThinking }: MessageListProps) 
                 <div className="prose-dark text-sm">
                   <ReactMarkdown
                     components={{
-                      code({ inline, className, children, ...props }: {
-                        inline?: boolean
-                        className?: string
-                        children?: React.ReactNode
-                      }) {
+                      code({ inline, className, children, ...props }: any) {
                         const match = /language-(\w+)/.exec(className || '')
                         return !inline && match ? (
                           <SyntaxHighlighter
@@ -160,7 +151,6 @@ export default function MessageList({ messages, isThinking }: MessageListProps) 
         </div>
       ))}
 
-      {/* Typing indicator */}
       {isThinking && (
         <div className="flex gap-3 flex-row">
           <div className="flex-shrink-0 w-7 h-7 rounded flex items-center justify-center font-mono text-[10px] font-bold bg-alzz-red border border-alzz-red-mid text-white mt-1">
